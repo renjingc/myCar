@@ -1,0 +1,9 @@
+<launch>
+  <!-- set GPS serial name -->
+  <param name="GPSport_name" value="/dev/ttyUSB2" />
+  <param name="GPSport_baudrate" value="115200" />
+
+  <node name="rtkGPS_node" pkg="beginner_tutorials" type="readGPS.py" output="screen"/>
+
+
+</launch>

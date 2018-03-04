@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find zju_works)/param/wheel.xacro"/>
+
+  <xacro:property name="deg_to_rad" value="0.01745329251994329577"/>
+
+  <!-- Constants for robot dimensions -->
+  <xacro:property name="width" value="0.36" /> 
+  <xacro:property name="length" value="0.5" />
+  <xacro:property name="hight" value="0.22" />
+    
+  <xacro:property name="wheel_radius" value="0.075" /> <!-- Link 1 -->
+  <xacro:property name="thickness" value="0.044" /> <!-- Link 2 -->
+  <xacro:property name="axel_offsetX" value="0.0" />
+  <xacro:property name="axel_offsetY" value="0.0" /> 
+  
+  <!-- Links: inertial,visual,collision -->
+  <link name="base_link">
+    <inertial>
+      <!-- origin is relative -->
+      <origin xyz="0 0 ${hight/2}" rpy="0 0 0"/>
+      <mass value="5"/>
+      <inertia ixx="5" ixy="0" ixz="0" iyy="5" iyz="0" izz="5"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 ${hight/2}" rpy="0 0 0"/>
+      <geometry>
+        <box size="${length} ${width} ${hight}"/>
+      </geometry>
+      <material name="blue">  
+        	<color rgba="0 0 .8 1"/>  
+      </material> 
+    </visual>
+    <collision>
+      <!-- origin is relative -->
+      <origin xyz="0 0 ${hight/2}" rpy="0 0 0"/>
+      <geometry>
+        <box size="${length} ${width} ${hight}"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Wheels   -->
+  <wheel name="wheel1" parent="base" radius="${wheel_radius}" thickness="${thickness}">
+    <origin xyz="${length/2+axel_offsetX} ${width/2+axel_offsetY} ${wheel_radius/2}" rpy="${-90 * deg_to_rad} 0 0"/>
+  </wheel>
+  <wheel name="wheel2" parent="base" radius="${wheel_radius}" thickness="${thickness}">
+    <origin xyz="${length/2+axel_offsetX} ${-width/2+axel_offsetY} ${wheel_radius/2}" rpy="${-90 * deg_to_rad} 0 0"/>
+  </wheel>
+  <wheel name="wheel3" parent="base" radius="${wheel_radius}" thickness="${thickness}">
+    <origin xyz="${-length/2+axel_offsetX} ${-width/2+axel_offsetY} ${wheel_radius/2}" rpy="${-90 * deg_to_rad} 0 0"/>
+  </wheel>
+  <wheel name="wheel4" parent="base" radius="${wheel_radius}" thickness="${thickness}">
+    <origin xyz="${-length/2+axel_offsetX} ${width/2+axel_offsetY} ${wheel_radius/2}" rpy="${-90 * deg_to_rad} 0 0"/>
+  </wheel>
+
+
+</robot>

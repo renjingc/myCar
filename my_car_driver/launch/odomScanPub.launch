@@ -1,0 +1,16 @@
+<launch>
+    <arg name="model" />  
+    <arg name="gui" default="False" />   
+    <param name="use_gui" value="$(arg gui)"/>  
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />  
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+    <param name="robot_description"
+     	command="$(find xacro)/xacro.py '$(find my_car_driver)/param/myCar.xacro'" />
+
+    <node name="odomScanPub" pkg="my_car_driver" type="odomScanPub" output="screen">
+    	<param name="rectName1" type="string" value="/home/ren/7-20/odom_scan_07-20-16-23-57" />
+    	<param name="rectName2" type="string" value="/home/ren/7-20/odom_filter_scan_07-20-16-23-57" />
+    </node>
+  
+    <node pkg="tf" type="static_transform_publisher" name="link1_broadcaster" args="0.28 0 0 0 0 0 1 base_link laser 20" />
+</launch>

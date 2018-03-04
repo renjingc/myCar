@@ -1,0 +1,17 @@
+<launch>
+    <arg name="model" />  
+    <arg name="gui" default="False" />   
+    <param name="use_gui" value="$(arg gui)"/>  
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />  
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+    <param name="robot_description"
+     	command="$(find xacro)/xacro.py '$(find my_car_driver)/param/myCar.xacro'" />
+ 
+
+  <master auto="start"/>
+  <param name="/use_sim_time" value="false"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find my_car_driver)/maps/7-18.yaml" respawn="false" />
+  <include file="$(find my_car_driver)/move_base_config/amcl_node.xml"/>  
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find my_car_driver)/param/myCar2.rviz" />
+</launch>
+

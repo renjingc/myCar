@@ -1,0 +1,31 @@
+<launch>
+    <arg name="model" />  
+    <arg name="gui" default="False" />   
+    <param name="use_gui" value="$(arg gui)"/>  
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />  
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+    <param name="robot_description"
+     	command="$(find xacro)/xacro.py '$(find my_car_driver)/param/myCar.xacro'" />
+
+    <node name="carDriver" pkg="my_car_driver" type="carDriver" output="screen">
+    	<param name="a" type="double" value="0.165" />
+		<param name="b" type="double" value="0.160" />
+		<param name="s" type="string" value="/dev/ttyUSB0" />
+		<param name="p" type="double" value="38776" />
+    </node>
+    <node name="joy" pkg="joy" type="joy_node" />
+    <node name="joystick" pkg="my_car_driver" type="joystick_driver" />
+    <node name="hokuyo" pkg="hokuyo_node" type="hokuyo_node" respawn="false">
+  
+	    <!-- Starts up faster, but timestamps will be inaccurate. --> 
+	    <param name="calibrate_time" type="bool" value="false"/> 
+	    
+	    <!-- Set the port to connect to here -->
+	    <param name="port" type="string" value="/dev/ttyACM0"/> 
+	  
+	    <param name="intensity" type="bool" value="false"/>
+    </node>
+  
+    <node pkg="tf" type="static_transform_publisher" name="link1_broadcaster" args="0.28 0 0 0 0 0 1 base_link laser 20" />
+    <node name="rviz" pkg="rviz" type="rviz" respawn="false" output="screen" args="-d $(find my_car_driver)/param/myCar.rviz"/>
+</launch>

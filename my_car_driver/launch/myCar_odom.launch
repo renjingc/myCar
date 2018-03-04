@@ -1,0 +1,15 @@
+<launch>
+    <node name="gpsToOdom" pkg="my_car_driver" type="gpsToOdom" output="screen" />
+	<node name="dataSave" pkg="my_car_driver" type="dataSave"  />
+	
+    <arg name="model" />  
+    <arg name="gui" default="False" />   
+    <param name="use_gui" value="$(arg gui)"/>  
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />  
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+    <param name="robot_description"
+     	command="$(find xacro)/xacro.py '$(find my_car_driver)/param/myCar.xacro'" />
+	    
+	
+    <node name="rviz" pkg="rviz" type="rviz" respawn="false" output="screen" args="-d $(find my_car_driver)/param/myCar.rviz"/>
+</launch>

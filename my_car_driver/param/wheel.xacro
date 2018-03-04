@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <macro name="wheel" params="name parent radius thickness *origin">
+    <link name="${name}_link">
+      <inertial>
+        <origin xyz="${length/2+axel_offsetX} ${width/2+axel_offsetY} ${wheel_radius/2}" rpy="${-90 * deg_to_rad} 0 0"/>
+        <mass value="1"/>
+        <inertia ixx="0.2" ixy="0" ixz="0" iyy="0.2" iyz="0" izz="0.2"/>
+      </inertial>
+      <visual>
+        <origin xyz="${length/2+axel_offsetX} ${width/2+axel_offsetY} ${wheel_radius/2}" rpy="${-90 * deg_to_rad} 0 0"/>
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${thickness}"/>
+        </geometry>
+        <material name="black">  
+        	<color rgba="0 0 0 1"/>  
+      	</material>  
+      </visual>
+      <collision>
+        <origin xyz="${length/2+axel_offsetX} ${width/2+axel_offsetY} ${wheel_radius/2}" rpy="${-90 * deg_to_rad} 0 0"/>
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${thickness}"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${name}" type="continuous">
+      <parent link="${parent}_link"/>
+      <child link="${name}_link"/>
+      <insert_block name="origin"/>
+      <axis xyz="0 0 1"/>
+    </joint>
+
+  </macro>
+</robot>
